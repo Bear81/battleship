@@ -105,3 +105,32 @@ def get_player_guess():
             continue
 
         return row, col
+
+get_player_guess()
+
+
+remaining_guesses = 30
+
+
+def run_player_guess():
+    """
+    Process the players guess.
+    - if it's a hit, mark the grid with an 'X'
+    - If it's a miss, mark the grid with 'O'
+    -if the cell has already been guessed, inform the player
+    Returns True if its a hit, False otherwise
+    """
+    if grid[row][col] in ["X", "O"]:
+        print("you've already guessed this spot, try again. ")
+        return False, remaining_guesses
+    
+    if(row,col) in ships:
+        print("HIT!")
+        grid[row][col] = "X"
+        remaining_guesses -= 1
+        return True, remaining_guesses
+    else:
+        print("Miss!")
+        grid[row][col] = "O"
+        remaining_guesses -= 1
+        return False, remaining_guesses
