@@ -16,14 +16,18 @@ def build_grid(size):
 
 def print_grid(grid):
     """
-    Print the grid
+    Print the grid with row labels and column headers
     """
-    for row in grid:
-        print(" ".join(row))
+    column_headers = " " + " ".join(str(i + 1) for i in range(len(grid)))
+    print(column_headers)
+
+    for i, row in enumerate(grid):
+        row_label = chr(ord("A") + i)
+        print(f"{row_label} {' '.join(row)}")
     print()
 
 
-# Create abd print an empty 10x10 grid
+# Create and print an empty 10x10 grid
 grid_size = 10
 grid = build_grid(grid_size)
 
