@@ -31,46 +31,56 @@ grid = build_grid(grid_size)
 # Functions to place ships.
 # Where to place them and check if they can be placed.
 
-def can_place_ship(grid, row, col, length, orientation):
+def can_place_ship(ships, row, col, length, orientation, grid_size):
     """Check if a ship can be placed on the grid."""
     if orientation == 'H':  # Horizontal
-        if col + length > len(grid):  # Check if ship goes off grid
+        if col + length > grid_size:  # Check if ship goes off grid
             return False
         for i in range(length):
-            if grid[row][col + i] != '~':  # Check if cell is already occupied
+            if (row, col + i) in ships:  # Check if cell is already occupied
                 return False
     else:  # Vertical
-        if row + length > len(grid):  # Check if ship goes off grid
+        if row + length > grid_size:  # Check if ship goes off grid
             return False
         for i in range(length):
-            if grid[row + i][col] != '~':  # Check if cell is already occupied
+            if (row + i, col) in ships:  # Check if cell is already occupied
                 return False
     return True
 
 
-def place_ship(grid, length):
-    """Place a ship of given length on the grid."""
+ships = []
+
+
+def place_ship(ships, length, grid_size):
+    """
+    Place a ship of given length on the grid,
+    storing its coordinates in ships list.
+    """
     placed = False
     while not placed:
-        row = random.randint(0, len(grid) - 1)
-        col = random.randint(0, len(grid) - 1)
-        orientation = random.choice(
-            ['H', 'V'])  # 'H' for horizontal, 'V' for vertical
+        row = random.randint(0, grid_size - 1)
+        col = random.randint(0, grid_size - 1)
+        # 'H' for horizontal, 'V' for vertical
+        orientation = random.choice(['H', 'V'])
 
-        if can_place_ship(grid, row, col, length, orientation):
-            # Place the ship
+        ship_coords = []  # Temporary list to hold ship coordinates
+        if can_place_ship(ships, row, col, length, orientation, grid_size):
+            # Add ship coordinates
             for i in range(length):
                 if orientation == 'H':
-                    grid[row][col + i] = 'S'
+                    ship_coords.append((row, col + i))
                 else:
-                    grid[row + i][col] = 'S'
+                    ship_coords.append((row + i, col))
             placed = True
+        if placed:
+            # Add the ship coordinates to the main list
+            ships.extend(ship_coords)
 
 
 # Place battleships of lengths 3, 4, 5, and 6
 ship_lengths = [3, 4, 5, 6]
 for length in ship_lengths:
-    place_ship(grid, length)
+    place_ship(ships, length, grid_size)
 
 # Print the grid with ships
 print_grid(grid)
