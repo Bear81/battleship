@@ -18,7 +18,7 @@ def print_grid(grid):
     """
     Print the grid with row labels and column headers
     """
-    column_headers = "  " + " ".join(str(i + 1) for i in range(len(grid)))
+    column_headers = " " + " ".join(str(i + 1) for i in range(len(grid)))
     print(column_headers)
 
     for i, row in enumerate(grid):
@@ -58,7 +58,6 @@ def place_ship(ships, length, grid_size):
 
         ship_coords = []  # Temporary list to hold ship coordinates
         if can_place_ship(ships, row, col, length, orientation, grid_size):
-            # Add ship coordinates
             for i in range(length):
                 if orientation == 'H':
                     ship_coords.append((row, col + i))
@@ -66,20 +65,20 @@ def place_ship(ships, length, grid_size):
                     ship_coords.append((row + i, col))
             placed = True
         if placed:
-            # Add the ship coordinates to the main list
             ships.extend(ship_coords)
 
 
 def get_player_guess():
     """
-    Ask the user for their guess, validate the input and row and column number
+    Ask the user for their guess,
+    validate the input and return row and column number
     """
     while True:
         guess = input("Enter your guess (e.g., A1, B4 etc.): ").upper()
-        if len(guess) < 2 or not guess[0].isalpha or not guess[1].isdigit():
+        if len(guess) < 2 or not guess[0].isalpha() or not guess[1:].isdigit():
             print("Invalid Input. Please enter a letter followed by a number.")
             continue
-        row, col = ord(guess[0]) - ord("A"), int(guess[1]) - 1
+        row, col = ord(guess[0]) - ord("A"), int(guess[1:]) - 1
         if row < 0 or row >= grid_size or col < 0 or col >= grid_size:
             print("Invalid input. Please enter a guess within the grid")
             continue
@@ -92,11 +91,11 @@ def run_player_guess(row, col, ships, grid, remaining_guesses):
     Process the players guess.
     - if it's a hit, mark the grid with an 'X'
     - If it's a miss, mark the grid with 'O'
-    -if the cell has already been guessed, inform the player
+    - if the cell has already been guessed, inform the player
     Returns True if its a hit, False otherwise
     """
     if grid[row][col] in ["X", "O"]:
-        print("you've already guessed this spot, try again. ")
+        print("You've already guessed this spot, try again.")
         return False, remaining_guesses
 
     if (row, col) in ships:
@@ -130,9 +129,6 @@ ship_lengths = [3, 4, 5, 6]
 for length in ship_lengths:
     place_ship(ships, length, grid_size)
 
-# Print the initial grid
-print_grid(grid)
-
 
 # Main game loop
 while remaining_guesses > 0 and not all_ships_sunk(ships, grid):
@@ -145,10 +141,11 @@ while remaining_guesses > 0 and not all_ships_sunk(ships, grid):
         print("Congratulations! You've sunk all the ships!")
         break
 
+
 # Final message
-if remaining_guesses > 0 and not all_ships_sunk(ships, grid):
-    print("Game over! Better luck next time.")
+if remaining_guesses == 0 and not all_ships_sunk(ships, grid):
+    print("Game over! You've run out of guesses.")
 
 
-# Print the final grid
+# Optional: print final grid
 print_grid(grid)
