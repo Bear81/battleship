@@ -1,4 +1,5 @@
 import random
+import sys
 
 
 def build_grid(size):
@@ -77,6 +78,11 @@ def get_player_guess():
     while True:
         guess = input("Enter your guess (e.g., A1, B4 etc.): ").upper()
         print()
+
+        if guess == "Q":
+            print("Quiting game. Thanks for playing")
+            sys.exit()
+            
         if len(guess) < 2 or not guess[0].isalpha or not guess[1].isdigit():
             print("Invalid Input. Please enter a letter followed by a number.")
             continue
@@ -148,6 +154,7 @@ INSTRUCTIONS:
   '~' : Water (unknown if a ship is there)
   'X' : Hit (a part of a ship has been hit)
   'O' : Miss (no ship at this location)
+  'Q' : Quit the game (Resart)
 
 Good luck, Admiral!
 """
