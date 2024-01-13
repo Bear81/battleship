@@ -76,10 +76,13 @@ def get_player_guess():
     """
     while True:
         guess = input("Enter your guess (e.g., A1, B4 etc.): ").upper()
+        print()
         if len(guess) < 2 or not guess[0].isalpha or not guess[1].isdigit():
             print("Invalid Input. Please enter a letter followed by a number.")
             continue
-        row, col = ord(guess[0]) - ord("A"), int(guess[1]) - 1
+        row = ord(guess[0]) - ord("A")
+        col = int(guess[1:]) - 1
+
         if row < 0 or row >= grid_size or col < 0 or col >= grid_size:
             print("Invalid input. Please enter a guess within the grid")
             continue
