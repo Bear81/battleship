@@ -121,6 +121,38 @@ def all_ships_sunk(ships, grid):
     return all(grid[row][col] == "X" for row, col in ships)
 
 
+# Welcome screen
+welcome_screen = """
+#####    ###   ###### ###### ##    #####  ####  ##  ## ## #####  
+##  ##   ###     ##     ##   ##    ##    ##  ## ##  ## ## ##  ## 
+##  ##  ## ##    ##     ##   ##    ##    ###    ##  ## ## ##  ## 
+#####   ## ##    ##     ##   ##    #####  ####  ###### ## ##  ## 
+##  ##  ## ##    ##     ##   ##    ##       ### ##  ## ## #####  
+##  ## #######   ##     ##   ##    ##    #   ## ##  ## ## ##     
+##  ## ##   ##   ##     ##   ##    ##    ##  ## ##  ## ## ##     
+#####  ##   ##   ##     ##   ##### #####  ####  ##  ## ## ##     
+"""
+
+
+print(welcome_screen)
+
+
+# Game Instructions
+instructions = """
+INSTRUCTIONS:
+- Your goal is to sink all the enemy's battleships.
+- The grid shows your shot history.
+- Enter coordinates to fire at enemy positions. 
+- For example, 'A1' for row A, column 1.
+- Symbols on the grid:
+  '~' : Water (unknown if a ship is there)
+  'X' : Hit (a part of a ship has been hit)
+  'O' : Miss (no ship at this location)
+
+Good luck, Admiral!
+"""
+print(instructions)
+
 # Initialize game variables
 grid_size = 10
 grid = build_grid(grid_size)
