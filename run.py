@@ -106,6 +106,7 @@ def get_player_guess():
 
         return row, col
 
+
 get_player_guess()
 
 
@@ -123,8 +124,8 @@ def run_player_guess():
     if grid[row][col] in ["X", "O"]:
         print("you've already guessed this spot, try again. ")
         return False, remaining_guesses
-    
-    if(row,col) in ships:
+
+    if (row, col) in ships:
         print("HIT!")
         grid[row][col] = "X"
         remaining_guesses -= 1
@@ -134,3 +135,40 @@ def run_player_guess():
         grid[row][col] = "O"
         remaining_guesses -= 1
         return False, remaining_guesses
+
+
+# Call for processing guesses
+hit, remaining_guesses = process_guess(
+    row, col, ships, grid, remaining_guesses)
+
+
+# Place battleships
+for length in ship_lengths:
+    place_ship(ships, length, grid_size)
+
+
+def all_ships_sunk(ships, grid):
+    """
+    Check if all ships are sunk.
+    """
+    return all(grid[row][col] == "X" for row, col in ships)
+
+
+# Main game loop
+while remaining_guesses > 0 and not all_ships_sunk(ships, grid):
+    print(f"Remaining guesses: {remaining_guesses}")
+    row, col = get_player_guess()
+    hit, remaining_guesses = run_player_guess(
+        row, col, ships, grid, remaining_guesses)
+    print_grid(grid)
+    if hit:
+        if all_ships_sunk(ships, grid):
+            print("Congratulations! You've sunk all the ships!")
+            break
+    else:
+        if remaining_guesses == 0:
+            print("Game over! You've run out of guesses.")
+
+# Final message
+if remaining_guesses > 0 and not all_ships_sunk(ships, grid):
+    print("Game over! Better luck next time.")
